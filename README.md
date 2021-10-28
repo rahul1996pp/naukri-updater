@@ -1,6 +1,6 @@
 # NAUKRI RESUME AUTO UPDATER
 
-[![License: GPL v3](https://github.com/rahul1996pp/naukri-updater/blob/main/LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/rahul1996pp/naukri-updater/blob/main/LICENSE)
 
 - I am using poetry for dependencies.
 - you can check or change in data.txt file for username and password

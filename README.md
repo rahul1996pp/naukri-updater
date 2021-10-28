@@ -26,7 +26,7 @@ To run the program after installing all dependencies
 
 ```bash
 poetry shell
-python cvlib_image_sorter.py
+python naukri_updater.py
 ```
 
 ## How to run(automatical method and easy):

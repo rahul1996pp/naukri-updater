@@ -1,4 +1,4 @@
-# NAUKRI RESUME AUTO UPDATER
+# NAUKRI RESUME AUTO UPDATER WITHOUT OPENING CHHROME
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/rahul1996pp/naukri-updater/blob/main/LICENSE)
 
@@ -8,6 +8,7 @@
 - run the script and let the script do the work for you
 - Easy resume uploader with a single click
 - We get the screenshort once the resume is uploaded.
+- Everything is done in the background.
 
 ## Installation:
 

@@ -1,4 +1,4 @@
-# NAUKRI RESUME AUTO UPDATER WITHOUT OPENING CHHROME
+# NAUKRI RESUME AUTO UPDATER WITHOUT OPENING ANY BROWSER
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/rahul1996pp/naukri-updater/blob/main/LICENSE)
 

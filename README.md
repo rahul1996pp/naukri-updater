@@ -32,7 +32,7 @@ python naukri_updater.py
 
 ## How to run(automatical method and easy):
 
- - Run the **run.bat** file it will take care of everything automatically
+ - Run the **run.bat** file it will take care of everything automatically.
 
 
 **Buy me a coffee : [click here](https://www.paypal.me/RahulPujari "Pay")**

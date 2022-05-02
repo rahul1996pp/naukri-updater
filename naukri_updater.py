@@ -1,30 +1,42 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import ui,expected_conditions as ec
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 from glob import glob
 from os import getcwd
 from os.path import join,exists
 from configobj import ConfigObj
 from colorama import Fore, init, Style
 
+
 bright = Style.BRIGHT
 green, blue, red, cyan, reset = Fore.GREEN + bright, Fore.BLUE + bright, Fore.RED + bright, Fore.CYAN, Fore.RESET
 init(convert=True, autoreset=True)
 
 def process():
-    browser = webdriver.Chrome(ChromeDriverManager().install())
+    options = Options()
+    options.add_argument('user-agent=Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2')
+    options.add_argument("--headless")
+    options.add_argument('--no-sandbox')
+    options.add_experimental_option("excludeSwitches",["ignore-certificate-errors"])
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
+    browser = webdriver.Chrome(service=Service("chromedriver.exe"),options=options)
     browser.get('https://www.naukri.com/nlogin/login')
     ui.WebDriverWait(browser,100).until(ec.presence_of_element_located((By.ID,'usernameField')))
-    browser.find_element_by_id("usernameField").send_keys(data['email'])
-    browser.find_element_by_id("passwordField").send_keys(data['password'])
-    browser.find_element_by_id('loginForm').submit()
+    browser.find_element(By.ID,"usernameField").send_keys(data['email'])
+    print(f"{green}[+] Email typed")
+    browser.find_element(By.ID,"passwordField").send_keys(data['password'])
+    print(f"{green}[+] password typed")
+    browser.find_element(By.ID,'loginForm').submit()
+    print(f"{green}[+] Logged in successfully")
     ui.WebDriverWait(browser,100).until(ec.presence_of_element_located((By.XPATH,'//*[@id="root"]/div/div/span/div/div/div/div[2]/div/div[2]/div[1]/div')))
     browser.get('https://www.naukri.com/mnjuser/profile')
+    print(f"{green}[+] Navgated to profile")
     ui.WebDriverWait(browser,100).until(ec.presence_of_element_located((By.CLASS_NAME,'uploadContainer')))
-    browser.find_element_by_id('attachCV').send_keys(join(getcwd(), (glob("*.pdf") + glob("*.docx"))[0]))
+    browser.find_element(By.ID,'attachCV').send_keys(join(getcwd(), (glob("*.pdf") + glob("*.docx"))[0]))
     ui.WebDriverWait(browser,100).until(ec.presence_of_element_located((By.XPATH,'//*[@id="attachCVMsgBox"]/div')))
-    browser.find_element_by_class_name('attachCV').screenshot('success.png')
+    print(f"{green}[+] Resume updated successfully")
+    browser.find_element(By.CLASS_NAME,'attachCV').screenshot('success.png')
     browser.close()
 
 def resume_checker():

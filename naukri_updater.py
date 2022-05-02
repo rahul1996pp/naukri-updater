@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import ui,expected_conditions as ec
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from glob import glob
 from os import getcwd
 from os.path import join,exists

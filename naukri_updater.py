@@ -8,11 +8,39 @@ from os import getcwd
 from os.path import join,exists
 from configobj import ConfigObj
 from colorama import Fore, init, Style
-
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.common.exceptions import WebDriverException
 
 bright = Style.BRIGHT
 green, blue, red, cyan, reset = Fore.GREEN + bright, Fore.BLUE + bright, Fore.RED + bright, Fore.CYAN, Fore.RESET
 init(convert=True, autoreset=True)
+
+def resume_checker():
+    if not (glob("*.pdf") + glob("*.docx")):
+        print(f"{red}[-] Put resume file in the folder [-]")
+        input(f"{green}[+] Press enter after you copy the resume ")
+        resume_checker()
+    else:
+        print(f"{green}[+] Resume found")
+
+def login_details():
+    if not (data['email'] or data['password']):
+        data['email']=input("[+] Enter your email address = ")
+        data['password']=input("[+] Enter password = ")
+        data.write()
+    else:
+        print(f"{green}[+] username and password found")
+
+def driver_install():
+    global data
+    data = ConfigObj('data.txt')
+    if not exists('data.txt'):
+        print(f"{green}[+] creating file to store data")
+        open("data.txt", "w").write("email=\npassword=\ndriverlink=")
+        data = ConfigObj('data.txt')
+    if not (data['driverlink']):
+        data['driverlink'] = ChromeDriverManager().install()
+        data.write()
 
 def process():
     options = Options()
@@ -21,7 +49,7 @@ def process():
     options.add_argument('--no-sandbox')
     options.add_experimental_option("excludeSwitches",["ignore-certificate-errors"])
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
-    browser = webdriver.Chrome(service=Service("chromedriver.exe"),options=options)
+    browser = webdriver.Chrome(service=Service(data['driverlink']),options=options)
     browser.get('https://www.naukri.com/nlogin/login')
     ui.WebDriverWait(browser,100).until(ec.presence_of_element_located((By.ID,'usernameField')))
     browser.find_element(By.ID,"usernameField").send_keys(data['email'])
@@ -39,28 +67,6 @@ def process():
     print(f"{green}[+] Resume updated successfully")
     browser.find_element(By.CLASS_NAME,'attachCV').screenshot('success.png')
     browser.close()
-
-def resume_checker():
-    if not (glob("*.pdf") + glob("*.docx")):
-        print(f"{red}[-] Put resume file in the folder")
-        input()
-        exit()
-    else:
-        print(f"{green}[+] Resume found")
-
-def login_details():
-    global data
-    data = ConfigObj('data.txt')
-    if not exists('data.txt'):
-        print(f"{green}[+] creating file to store data")
-        open("data.txt", "w").write("email=\npassword=")
-        data = ConfigObj('data.txt')
-    if not (data['email'] or data['password']):
-        data['email']=input("[+] Enter your email address = ")
-        data['password']=input("[+] Enter password = ")
-        data.write()
-    else:
-        print(f"{green}[+] username and password found")
 
 
 def credit():
@@ -90,11 +96,15 @@ def main():
         process()
 
 try:
+    driver_install()
     credit()
     main()
     print(f"{green}[+] Successfully uploaded")
-    input()
 except KeyboardInterrupt:
     print(f'{red}\n[~] Exiting ....')
+except WebDriverException as e:
+    data['driverlink'] = ChromeDriverManager().install()
+    data.write()
+    print(f"{green}[+] Try running the script again if error happens chromedive not installed {e}")
 except Exception as e:
     print(f"{red}\n[-] error message is {e}")

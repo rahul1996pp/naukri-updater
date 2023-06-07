@@ -1,14 +1,15 @@
 [tool.poetry]
-name = "naukri updater"
+name = "naukri-updater-main"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["rahul"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-selenium = "^4.0.0"
-configobj = "^5.0.6"
-webdriver-manager = "^3.5.1"
+python = "^3.10"
+selenium = "^4.10.0"
+configobj = "^5.0.8"
+colorama = "^0.4.6"
+webdriver-manager = "^3.8.6"
 
 [tool.poetry.dev-dependencies]
 
